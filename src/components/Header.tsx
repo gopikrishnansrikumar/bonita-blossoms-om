@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ShoppingBag, Menu, X } from "lucide-react";
 import logo from "@/assets/bonita-logo.png";
 import { useCart } from "@/context/CartContext";
@@ -15,21 +15,35 @@ const links = [
 export function Header() {
   const { count } = useCart();
   const [open, setOpen] = useState(false);
+  const [compact, setCompact] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setCompact(window.scrollY > 40);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-10">
-        <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-          <img src={logo} alt="Bonita Flowers logo" className="h-11 w-11 rounded-full border border-accent/50 object-cover" />
+    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur transition-all duration-300">
+      <div className={`mx-auto flex max-w-7xl items-center justify-between px-5 ${compact ? "py-3" : "py-5"} lg:px-10`}>
+        <Link to="/" className="flex items-center gap-4" onClick={() => setOpen(false)}>
+          <div className={`relative overflow-hidden rounded-full border-2 border-accent/60 bg-white transition-all duration-300 ${compact ? "h-12 w-12 shadow-[0_0_0_3px_rgba(199,160,103,0.12)]" : "h-16 w-16 shadow-[0_0_0_4px_rgba(199,160,103,0.16)]"}`}>
+            <img
+              src={logo}
+              alt="Bonita Flowers logo"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </div>
           <div>
-            <span className="block font-serif text-2xl tracking-wide text-foreground">{SITE.name}</span>
-            <span className="hidden text-[10px] uppercase tracking-[0.3em] text-muted-foreground sm:block">
+            <span className={`block font-serif tracking-wide text-foreground transition-all duration-300 ${compact ? "text-2xl" : "text-3xl"}`}>{SITE.name}</span>
+            <span className={`text-xs uppercase tracking-[0.28em] text-muted-foreground transition-opacity duration-300 ${compact ? "opacity-0" : "opacity-100"}`}>
               Luxury florist · Oman
             </span>
           </div>
         </Link>
 
-        <nav className="hidden items-center gap-9 md:flex">
+        <nav className="hidden items-center gap-9 md:flex md:ml-8">
           {links.map((l) => (
             <Link
               key={l.to}

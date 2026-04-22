@@ -52,13 +52,13 @@
 :root {
   --radius: 0.25rem;
 
-  --background: oklch(0.985 0.008 85);
-  --foreground: oklch(0.24 0.035 20);
+  --background: #f6e7dd;
+  --foreground: #422924;
 
-  --card: oklch(0.995 0.004 85);
-  --card-foreground: oklch(0.24 0.035 20);
-  --popover: oklch(0.995 0.004 85);
-  --popover-foreground: oklch(0.24 0.035 20);
+  --card: #fff5ee;
+  --card-foreground: #422924;
+  --popover: #fff5ee;
+  --popover-foreground: #422924;
 
   --primary: oklch(0.35 0.12 20);
   --primary-foreground: oklch(0.985 0.01 90);
@@ -126,6 +126,9 @@
 
   body {
     background-color: var(--color-background);
+    background-image:
+      radial-gradient(circle at top left, rgba(199,160,103,0.14), transparent 18%),
+      radial-gradient(circle at bottom right, rgba(112,33,47,0.08), transparent 22%);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";

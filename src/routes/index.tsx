@@ -64,10 +64,6 @@ function HomePage() {
       <section className="relative overflow-hidden border-b border-border/50 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--color-background)_88%,var(--color-gold)_12%),var(--color-background))]">
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 pb-16 pt-10 md:grid-cols-2 md:pb-24 md:pt-16 lg:px-10">
           <div className="order-2 md:order-1">
-            <div className="inline-flex items-center gap-3 rounded-full border border-accent/35 bg-background/90 px-3 py-2 shadow-[var(--shadow-soft)]">
-              <img src={logo} alt="Bonita Flowers mark" className="h-9 w-9 rounded-full object-cover" />
-              <span className="text-[11px] uppercase tracking-[0.26em] text-muted-foreground">Bonita Flowers · Oman</span>
-            </div>
             <h1 className="mt-6 font-serif text-5xl leading-[1.02] text-foreground sm:text-6xl lg:text-7xl">
               Elegant Flowers
               <br />
