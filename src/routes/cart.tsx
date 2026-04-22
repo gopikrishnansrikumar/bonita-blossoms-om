@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Minus, Plus, X, Truck, Banknote } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { createOrder } from "@/lib/storefront";
 import { formatPrice, waLink } from "@/lib/site";
 
 export const Route = createFileRoute("/cart")({
@@ -19,8 +20,25 @@ function CartPage() {
   const [step, setStep] = useState<"cart" | "checkout" | "done">("cart");
   const [info, setInfo] = useState({ name: "", phone: "", address: "", city: "", note: "" });
 
-  const handleCheckout = (e: React.FormEvent) => {
+  const handleCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
+    await createOrder({
+      data: {
+        customer_name: info.name,
+        phone: info.phone,
+        address: info.address,
+        city: info.city,
+        note: info.note,
+        total_amount: total,
+        items: items.map((item) => ({
+          product_id: undefined,
+          product_name: item.name,
+          product_image_url: item.image,
+          quantity: item.quantity,
+          unit_price: item.price,
+        })),
+      },
+    });
     const lines = items
       .map((i) => `• ${i.name} × ${i.quantity} — ${formatPrice(i.price * i.quantity)}`)
       .join("\n");
