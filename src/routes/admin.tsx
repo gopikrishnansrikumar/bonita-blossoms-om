@@ -13,11 +13,26 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { lovable } from "@/integrations/lovable";
+import type { Database } from "@/integrations/supabase/types";
 import { getAdminData } from "@/lib/storefront";
 import { bootstrapAdminRole, deleteProduct, getSessionState, saveProduct, saveSettings, saveSiteContent, signInWithPassword, signOutAdmin, signUpWithPassword, updateOrderStatus, type ProductInput } from "@/lib/admin";
 import { formatPrice } from "@/lib/site";
 
 const productCategories = ["Roses", "Bouquets", "Luxury", "Mixed Bouquets", "Luxury Arrangements"] as const;
+type ProductRow = Database["public"]["Tables"]["products"]["Row"];
+type SiteContentRow = Database["public"]["Tables"]["site_content"]["Row"];
+type OrderRow = Database["public"]["Tables"]["orders"]["Row"];
+type OrderItemRow = Database["public"]["Tables"]["order_items"]["Row"];
+type MediaAssetRow = Database["public"]["Tables"]["media_assets"]["Row"];
+type SiteSettingsRow = Database["public"]["Tables"]["site_settings"]["Row"];
+type AdminData = {
+  products: ProductRow[];
+  siteContent: SiteContentRow[];
+  siteSettings: SiteSettingsRow | null;
+  orders: OrderRow[];
+  orderItems: OrderItemRow[];
+  mediaAssets: MediaAssetRow[];
+};
 
 export const Route = createFileRoute("/admin")({
   loader: async () => {
@@ -74,10 +89,10 @@ function AdminPage() {
     sort_order: 0,
   });
 
-  const data = loaderData.data;
+  const data = loaderData.data as AdminData | null;
   const groupedOrderItems = useMemo(() => {
-    const items = data?.orderItems ?? [];
-    return items.reduce<Record<string, typeof items>>((acc, item) => {
+    const items: OrderItemRow[] = data?.orderItems ?? [];
+    return items.reduce((acc: Record<string, OrderItemRow[]>, item: OrderItemRow) => {
       acc[item.order_id] ??= [];
       acc[item.order_id].push(item);
       return acc;
@@ -226,7 +241,7 @@ function AdminPage() {
               {[
                 { label: "Products", value: data.products.length },
                 { label: "Orders", value: data.orders.length },
-                { label: "Featured", value: data.products.filter((p) => p.is_featured).length },
+                { label: "Featured", value: data.products.filter((p: ProductRow) => p.is_featured).length },
                 { label: "Media assets", value: data.mediaAssets.length },
               ].map((stat) => (
                 <Card key={stat.label} className="rounded-lg border-border/70 bg-background">
@@ -289,7 +304,7 @@ function AdminPage() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {data.products.map((product) => (
+                        {data.products.map((product: ProductRow) => (
                           <TableRow key={product.id}>
                             <TableCell>
                               <div className="flex items-center gap-3">
@@ -322,7 +337,7 @@ function AdminPage() {
 
               <TabsContent value="content" id="content">
                 <div className="grid gap-4 lg:grid-cols-2">
-                  {data.siteContent.map((section) => (
+                  {data.siteContent.map((section: SiteContentRow) => (
                     <Card key={section.id} className="rounded-lg border-border/70 bg-background">
                       <CardHeader>
                         <CardTitle>{section.key}</CardTitle>
@@ -353,7 +368,7 @@ function AdminPage() {
                     <CardDescription>Track customer requests and update delivery status.</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    {data.orders.map((order) => (
+                    {data.orders.map((order: OrderRow) => (
                       <div key={order.id} className="rounded-sm border border-border/70 p-4">
                         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                           <div>
@@ -375,7 +390,7 @@ function AdminPage() {
                           </div>
                         </div>
                         <div className="mt-4 flex flex-wrap gap-3">
-                          {(groupedOrderItems[order.id] || []).map((item) => (
+                          {(groupedOrderItems[order.id] || []).map((item: OrderItemRow) => (
                             <div key={item.id} className="rounded-sm border border-border/60 bg-secondary/40 px-3 py-2 text-sm">
                               {item.product_name} × {item.quantity}
                             </div>
@@ -395,7 +410,7 @@ function AdminPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                      {data.mediaAssets.map((asset) => (
+                      {data.mediaAssets.map((asset: MediaAssetRow) => (
                         <div key={asset.id} className="rounded-sm border border-border/70 p-3">
                           <img src={asset.public_url || "https://placehold.co/400x500?text=Media"} alt={asset.alt_text || asset.file_name} className="aspect-[4/5] w-full rounded-sm object-cover" />
                           <p className="mt-3 truncate text-sm font-medium text-foreground">{asset.file_name}</p>
