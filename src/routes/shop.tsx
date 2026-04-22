@@ -25,15 +25,15 @@ function ShopPage() {
 
   return (
     <div>
-      <section className="border-b border-border/60 bg-secondary/40 py-16 md:py-20">
+      <section className="border-b border-border/60 bg-secondary/50 py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-5 text-center lg:px-10">
           <p className="eyebrow">The Shop</p>
           <h1 className="mt-4 font-serif text-4xl text-foreground sm:text-5xl">
-            Hand-tied bouquets, made to gift.
+            Signature bouquets, styled to impress.
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-sm text-muted-foreground sm:text-base">
-            Each arrangement is created fresh in our Muscat studio using seasonal blooms.
-            Choose a style below and we'll deliver — often the same day.
+            Browse elegant arrangements designed for luxury gifting, heartfelt surprises,
+            and beautiful celebrations across Oman.
           </p>
         </div>
       </section>
@@ -46,8 +46,8 @@ function ShopPage() {
               onClick={() => setActive(c)}
               className={`rounded-full border px-5 py-2 text-xs uppercase tracking-[0.18em] transition-all ${
                 active === c
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-background text-foreground/70 hover:border-primary hover:text-primary"
+                  ? "border-accent bg-accent text-accent-foreground"
+                  : "border-border bg-background text-foreground/70 hover:border-accent hover:text-primary"
               }`}
             >
               {c}

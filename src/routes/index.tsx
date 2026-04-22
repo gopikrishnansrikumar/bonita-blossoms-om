@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Truck, Sparkles, HeartHandshake, Star, Instagram } from "lucide-react";
+import { ArrowRight, Truck, Sparkles, HeartHandshake, Star, Instagram, ShieldCheck } from "lucide-react";
+import logo from "@/assets/bonita-logo.png";
 import heroImage from "@/assets/hero-bouquet.jpg";
 import { products } from "@/data/products";
 import { ProductCard } from "@/components/ProductCard";
@@ -9,13 +10,13 @@ import { SITE } from "@/lib/site";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Bonita Flowers — Fresh Flowers, Beautiful Moments | Oman" },
+      { title: "Bonita Flowers — Elegant Flowers for Every Occasion | Oman" },
       {
         name: "description",
         content:
-          "Hand-arranged bouquets for every occasion in Oman. Same-day delivery, Cash on Delivery, and easy WhatsApp ordering.",
+          "Luxury bouquets and floral gifts in Oman. Same-day delivery, Cash on Delivery, and elegant WhatsApp ordering.",
       },
-      { property: "og:title", content: "Bonita Flowers — Fresh Flowers, Beautiful Moments" },
+      { property: "og:title", content: "Bonita Flowers — Elegant Flowers for Every Occasion" },
       {
         property: "og:description",
         content: "Premium florist in Oman. Same-day delivery and effortless WhatsApp ordering.",
@@ -60,23 +61,26 @@ function HomePage() {
   return (
     <div>
       {/* HERO */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden border-b border-border/50 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--color-background)_88%,var(--color-gold)_12%),var(--color-background))]">
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 pb-16 pt-10 md:grid-cols-2 md:pb-24 md:pt-16 lg:px-10">
           <div className="order-2 md:order-1">
-            <p className="eyebrow">Bonita Flowers · Oman</p>
-            <h1 className="mt-5 font-serif text-5xl leading-[1.05] text-foreground sm:text-6xl lg:text-7xl">
-              Fresh Flowers,
+            <div className="inline-flex items-center gap-3 rounded-full border border-accent/35 bg-background/90 px-3 py-2 shadow-[var(--shadow-soft)]">
+              <img src={logo} alt="Bonita Flowers mark" className="h-9 w-9 rounded-full object-cover" />
+              <span className="text-[11px] uppercase tracking-[0.26em] text-muted-foreground">Bonita Flowers · Oman</span>
+            </div>
+            <h1 className="mt-6 font-serif text-5xl leading-[1.02] text-foreground sm:text-6xl lg:text-7xl">
+              Elegant Flowers
               <br />
-              <span className="italic text-primary">Beautiful</span> Moments.
+              for <span className="text-primary">Every Occasion</span>
             </h1>
             <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
-              Premium, hand-arranged bouquets for every occasion — delivered fresh
-              across Oman, the same day you order.
+              A premium floral boutique experience for gifting, celebration, and life’s
+              most meaningful moments — delivered across Oman with care.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
                 to="/shop"
-                className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-medium tracking-wide text-primary-foreground transition-all hover:opacity-90"
+                className="group inline-flex items-center gap-2 rounded-full bg-accent px-7 py-4 text-sm font-medium tracking-wide text-accent-foreground transition-all hover:opacity-90"
               >
                 Shop Now
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -87,18 +91,19 @@ function HomePage() {
               <span className="flex items-center gap-2"><Truck className="h-4 w-4 text-primary" /> Same-day delivery</span>
               <span className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-primary" /> Cash on Delivery</span>
               <span className="flex items-center gap-2"><HeartHandshake className="h-4 w-4 text-primary" /> Hand-arranged daily</span>
+              <span className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-primary" /> Premium gifting experience</span>
             </div>
           </div>
 
           <div className="order-1 md:order-2">
             <div className="relative">
-              <div className="absolute -inset-6 rounded-full bg-gradient-to-br from-blush/60 to-cream blur-3xl" />
+              <div className="absolute -inset-6 rounded-full bg-gradient-to-br from-accent/25 to-primary/20 blur-3xl" />
               <img
                 src={heroImage}
-                alt="Luxury floral arrangement of pink peonies and white roses"
+                alt="Luxury flower bouquet styled for Bonita Flowers"
                 width={1600}
                 height={1200}
-                className="relative aspect-[4/3] w-full rounded-sm object-cover shadow-[var(--shadow-petal)]"
+                className="relative aspect-[4/3] w-full rounded-sm border border-accent/25 object-cover shadow-[var(--shadow-petal)]"
               />
             </div>
           </div>
@@ -106,16 +111,16 @@ function HomePage() {
       </section>
 
       {/* INTRO */}
-      <section className="border-y border-border/50 bg-secondary/30 py-20">
+      <section className="border-y border-border/50 bg-secondary/40 py-20">
         <div className="mx-auto max-w-3xl px-5 text-center lg:px-10">
           <p className="eyebrow">Welcome to Bonita</p>
           <h2 className="mt-4 font-serif text-3xl text-foreground sm:text-4xl">
-            Premium bouquets for the moments that matter.
+            Refined floral gifting for the moments that matter.
           </h2>
           <p className="mt-6 text-base leading-relaxed text-muted-foreground">
             From the first hello to the lifelong love story, Bonita Flowers crafts
-            timeless arrangements with the freshest seasonal blooms. Every bouquet
-            is hand-tied in our Muscat studio and delivered with care across Oman.
+             elegant arrangements with premium seasonal blooms. Every bouquet is
+             styled to feel luxurious, thoughtful, and worthy of the occasion.
           </p>
         </div>
       </section>
@@ -141,7 +146,7 @@ function HomePage() {
       </section>
 
       {/* OCCASIONS */}
-      <section className="bg-blush/30 py-20">
+      <section className="bg-secondary/55 py-20">
         <div className="mx-auto max-w-7xl px-5 lg:px-10">
           <div className="text-center">
             <p className="eyebrow">Shop by occasion</p>
@@ -154,7 +159,7 @@ function HomePage() {
               <Link
                 key={o.name}
                 to="/shop"
-                className="group flex flex-col items-center rounded-sm border border-border/60 bg-background p-8 text-center transition-all hover:border-primary hover:shadow-[var(--shadow-soft)]"
+                className="group flex flex-col items-center rounded-sm border border-border/60 bg-background p-8 text-center transition-all hover:border-accent hover:shadow-[var(--shadow-soft)]"
               >
                 <span className="font-serif text-xl text-foreground transition-colors group-hover:text-primary">
                   {o.name}
@@ -194,7 +199,7 @@ function HomePage() {
       </section>
 
       {/* INSTAGRAM */}
-      <section className="border-t border-border/60 bg-cream py-20">
+      <section className="border-t border-border/60 bg-champagne py-20">
         <div className="mx-auto max-w-7xl px-5 lg:px-10">
           <div className="flex flex-col items-center text-center">
             <p className="eyebrow">@bonita.flowers</p>
