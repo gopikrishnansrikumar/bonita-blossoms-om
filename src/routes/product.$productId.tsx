@@ -75,13 +75,13 @@ function ProductPage() {
         </nav>
 
         <div className="grid gap-12 lg:grid-cols-2">
-          <div className="overflow-hidden rounded-sm bg-secondary/40">
+          <div className="overflow-hidden rounded-sm border border-border/70 bg-secondary/30 shadow-[var(--shadow-petal)]">
             <img
               src={product.image}
               alt={product.name}
               width={900}
               height={1100}
-              className="h-full w-full object-cover"
+                className="h-full w-full object-cover"
             />
           </div>
 
@@ -115,7 +115,7 @@ function ProductPage() {
               </div>
               <button
                 onClick={handleAdd}
-                className="flex-1 rounded-full bg-primary px-6 py-3 text-sm font-medium tracking-wide text-primary-foreground transition-all hover:opacity-90"
+                className="flex-1 rounded-full bg-accent px-6 py-3 text-sm font-medium tracking-wide text-accent-foreground transition-all hover:opacity-90"
               >
                 {added ? "Added to cart ✓" : "Add to Cart"}
               </button>
@@ -137,7 +137,7 @@ function ProductPage() {
       </section>
 
       {related.length > 0 && (
-        <section className="border-t border-border/60 bg-secondary/30 py-20">
+        <section className="border-t border-border/60 bg-secondary/45 py-20">
           <div className="mx-auto max-w-7xl px-5 lg:px-10">
             <h2 className="font-serif text-2xl text-foreground sm:text-3xl">You may also love</h2>
             <div className="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 lg:grid-cols-4">

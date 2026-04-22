@@ -124,18 +124,18 @@ function CartPage() {
                   className="mt-2 w-full rounded-sm border border-input bg-background px-4 py-3 text-sm text-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary"
                 />
               </div>
-              <div className="rounded-sm border border-border bg-blush/30 p-4 text-sm text-foreground/80">
+               <div className="rounded-sm border border-accent/30 bg-secondary/50 p-4 text-sm text-foreground/80">
                 <p className="flex items-center gap-2 font-medium"><Banknote className="h-4 w-4 text-primary" /> Cash on Delivery</p>
                 <p className="mt-1 text-xs text-muted-foreground">Pay with cash when your bouquet arrives.</p>
               </div>
-              <button type="submit" className="w-full rounded-full bg-primary px-7 py-4 text-sm font-medium text-primary-foreground hover:opacity-90">
+               <button type="submit" className="w-full rounded-full bg-accent px-7 py-4 text-sm font-medium text-accent-foreground hover:opacity-90">
                 Confirm order via WhatsApp
               </button>
             </form>
           )}
         </div>
 
-        <aside className="h-fit rounded-sm border border-border bg-secondary/40 p-6">
+        <aside className="h-fit rounded-sm border border-border bg-secondary/50 p-6 shadow-[var(--shadow-soft)]">
           <h2 className="font-serif text-xl text-foreground">Order summary</h2>
           <div className="mt-5 space-y-3 text-sm">
             <div className="flex justify-between text-muted-foreground">
@@ -154,7 +154,7 @@ function CartPage() {
           {step === "cart" ? (
             <button
               onClick={() => setStep("checkout")}
-              className="mt-6 w-full rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:opacity-90"
+              className="mt-6 w-full rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground hover:opacity-90"
             >
               Checkout
             </button>
