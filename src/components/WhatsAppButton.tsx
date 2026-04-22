@@ -30,8 +30,8 @@ export function WhatsAppButton({
   size = "md",
 }: Props) {
   const styles = {
-    solid: "bg-whatsapp text-whatsapp-foreground hover:opacity-90",
-    outline: "border border-whatsapp text-whatsapp hover:bg-whatsapp/10",
+    solid: "bg-primary text-primary-foreground hover:opacity-90",
+    outline: "border border-accent text-primary hover:bg-accent/10",
     ghost: "text-whatsapp hover:bg-whatsapp/10",
   }[variant];
 
@@ -55,7 +55,7 @@ export function FloatingWhatsApp() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
-      className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-foreground shadow-lg shadow-whatsapp/30 transition-transform hover:scale-105"
+      className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 transition-transform hover:scale-105"
     >
       <WhatsAppIcon className="h-7 w-7" />
     </a>

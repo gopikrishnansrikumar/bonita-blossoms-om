@@ -5,13 +5,13 @@ import { WhatsAppIcon } from "@/components/WhatsAppButton";
 
 export function Footer() {
   return (
-    <footer className="mt-24 border-t border-border/60 bg-secondary/40">
+    <footer className="mt-24 border-t border-border/60 bg-secondary/50">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 md:grid-cols-4 lg:px-10">
         <div className="md:col-span-2">
           <h3 className="font-serif text-2xl">{SITE.name}</h3>
-          <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
-            Premium bouquets and floral gifts, hand-arranged in Muscat. Same-day delivery
-            across Oman, every petal chosen with care.
+            <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
+             Luxury bouquets and floral gifts, hand-arranged in Muscat with a refined,
+             warm gifting experience across Oman.
           </p>
           <div className="mt-6 flex items-center gap-3">
             <a
@@ -19,7 +19,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-accent/40 bg-background text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
             >
               <Instagram className="h-4 w-4" />
             </a>
@@ -28,7 +28,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background text-whatsapp transition-colors hover:bg-whatsapp hover:text-whatsapp-foreground"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-accent/40 bg-background text-whatsapp transition-colors hover:bg-whatsapp hover:text-whatsapp-foreground"
             >
               <WhatsAppIcon className="h-4 w-4" />
             </a>

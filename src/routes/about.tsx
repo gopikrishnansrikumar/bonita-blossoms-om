@@ -44,7 +44,7 @@ function AboutPage() {
         <div>
           <p className="eyebrow">Our story</p>
           <h1 className="mt-4 font-serif text-4xl text-foreground sm:text-5xl">
-            Flowers, the Bonita way.
+            Floral gifting with a luxury signature.
           </h1>
           <div className="mt-6 space-y-5 text-base leading-relaxed text-muted-foreground">
             <p>
@@ -72,10 +72,10 @@ function AboutPage() {
           </div>
         </div>
         <div className="relative">
-          <div className="absolute -inset-6 rounded-full bg-blush/40 blur-3xl" />
+          <div className="absolute -inset-6 rounded-full bg-accent/20 blur-3xl" />
           <img
             src={aboutImage}
-            alt="Florist hand-arranging a pastel bouquet"
+            alt="Florist hand-arranging a premium bouquet"
             loading="lazy"
             width={1200}
             height={1400}
@@ -84,7 +84,7 @@ function AboutPage() {
         </div>
       </section>
 
-      <section className="border-y border-border/60 bg-blush/30 py-20">
+       <section className="border-y border-border/60 bg-secondary/45 py-20">
         <div className="mx-auto max-w-7xl px-5 lg:px-10">
           <div className="text-center">
             <p className="eyebrow">What we believe</p>

@@ -311,6 +311,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      user_roles_is_empty: { Args: never; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
