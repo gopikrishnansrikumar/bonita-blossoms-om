@@ -443,6 +443,7 @@ function AdminPage() {
                       <div className="flex items-center justify-between rounded-sm border border-border/70 p-3"><span>Instagram gallery</span><Switch defaultChecked={data.siteSettings.instagram_enabled} id="instagram_enabled" /></div>
                       <div className="lg:col-span-2">
                         <Button className="rounded-full bg-accent text-accent-foreground" onClick={async () => {
+                          if (!data.siteSettings) return;
                           const getInputValue = (id: string) => (document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | null)?.value ?? "";
                           const getSwitchValue = (id: string) => (document.getElementById(id) as HTMLButtonElement | null)?.getAttribute("aria-checked") === "true";
                           await saveSettingsFn({ data: { id: data.siteSettings.id, whatsapp_number: getInputValue("whatsapp_number"), phone_display: getInputValue("phone_display"), phone_e164: getInputValue("phone_e164"), instagram_url: getInputValue("instagram_url"), email: getInputValue("email"), delivery_info: getInputValue("delivery_info"), hero_enabled: getSwitchValue("hero_enabled"), featured_enabled: getSwitchValue("featured_enabled"), delivery_enabled: getSwitchValue("delivery_enabled"), instagram_enabled: getSwitchValue("instagram_enabled") } });
