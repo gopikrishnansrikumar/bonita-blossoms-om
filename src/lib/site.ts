@@ -1,6 +1,6 @@
 export const SITE = {
   name: "Bonita Flowers",
-  tagline: "Fresh Flowers, Beautiful Moments",
+  tagline: "Elegant Flowers for Every Occasion",
   location: "Muscat, Oman",
   phoneDisplay: "+968 9000 0000",
   phoneE164: "+96890000000",
