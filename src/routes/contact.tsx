@@ -38,7 +38,7 @@ function ContactPage() {
         <div className="mx-auto max-w-3xl px-5 text-center lg:px-10">
           <p className="eyebrow">Get in touch</p>
           <h1 className="mt-4 font-serif text-4xl text-foreground sm:text-5xl">
-            We'd love to hear from you.
+            A refined floral service, one message away.
           </h1>
           <p className="mt-5 text-base text-muted-foreground">
             For orders, custom arrangements or wedding enquiries — WhatsApp is the
@@ -104,7 +104,7 @@ function ContactPage() {
             </li>
           </ul>
 
-          <div className="mt-10 rounded-sm border border-border bg-blush/30 p-6">
+          <div className="mt-10 rounded-sm border border-accent/30 bg-secondary/50 p-6">
             <p className="eyebrow">Delivery</p>
             <p className="mt-3 text-sm leading-relaxed text-foreground/80">
               Same-day delivery across Muscat for orders before 4pm. Cash on Delivery
@@ -160,7 +160,7 @@ function ContactPage() {
             </div>
             <button
               type="submit"
-              className="w-full rounded-full bg-primary px-7 py-4 text-sm font-medium tracking-wide text-primary-foreground transition-all hover:opacity-90 sm:w-auto"
+              className="w-full rounded-full bg-accent px-7 py-4 text-sm font-medium tracking-wide text-accent-foreground transition-all hover:opacity-90 sm:w-auto"
             >
               Send via WhatsApp
             </button>
