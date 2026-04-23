@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ShoppingBag, Menu, X } from "lucide-react";
 import logo from "@/assets/bonita-logo.png";
 import { useCart } from "@/context/CartContext";
@@ -15,15 +15,30 @@ const links = [
 export function Header() {
   const { count } = useCart();
   const [open, setOpen] = useState(false);
+  const [isCompact, setIsCompact] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setIsCompact(window.scrollY > 32);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-10">
-        <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-          <img src={logo} alt="Bonita Flowers logo" className="h-11 w-11 rounded-full border border-accent/50 object-cover" />
+    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/92 backdrop-blur-xl transition-all duration-300">
+      <div className={`mx-auto flex max-w-7xl items-center justify-between px-5 lg:px-10 transition-all duration-300 ${isCompact ? "py-3" : "py-5"}`}>
+        <Link to="/" className="flex items-center gap-3 sm:gap-4" onClick={() => setOpen(false)}>
+          <img
+            src={logo}
+            alt="Bonita Flowers logo"
+            className={`rounded-full border border-accent/60 object-cover shadow-[var(--shadow-soft)] transition-all duration-300 ${isCompact ? "h-12 w-12" : "h-16 w-16 sm:h-18 sm:w-18"}`}
+          />
           <div>
-            <span className="block font-serif text-2xl tracking-wide text-foreground">{SITE.name}</span>
-            <span className="hidden text-[10px] uppercase tracking-[0.3em] text-muted-foreground sm:block">
+            <span className={`block font-serif tracking-wide text-foreground transition-all duration-300 ${isCompact ? "text-[1.7rem] leading-none sm:text-[1.9rem]" : "text-[2.15rem] leading-none sm:text-[2.7rem]"}`}>
+              {SITE.name}
+            </span>
+            <span className={`hidden uppercase text-muted-foreground sm:block transition-all duration-300 ${isCompact ? "mt-1 text-[10px] tracking-[0.24em]" : "mt-1.5 text-[11px] tracking-[0.3em]"}`}>
               Luxury florist · Oman
             </span>
           </div>
