@@ -1,8 +1,5 @@
-import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 const productSchema = z.object({
   id: z.string().uuid().optional(),
@@ -113,101 +110,91 @@ export async function bootstrapAdminRole() {
   return { success: true };
 }
 
-export const saveProduct = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator(productSchema)
-  .handler(async ({ data }) => {
-    const payload = {
-      name: data.name,
-      slug: data.slug,
-      category: data.category,
-      price_omr: data.price_omr,
-      short_description: data.short_description,
-      description: data.description,
+export async function saveProduct(input: ProductInput) {
+  const data = productSchema.parse(input);
+  const payload = {
+    name: data.name,
+    slug: data.slug,
+    category: data.category,
+    price_omr: data.price_omr,
+    short_description: data.short_description,
+    description: data.description,
+    image_url: data.image_url || null,
+    image_path: data.image_path ?? null,
+    is_featured: data.is_featured,
+    is_active: data.is_active,
+    sort_order: data.sort_order,
+  };
+
+  const query = data.id
+    ? supabase.from("products").update(payload).eq("id", data.id).select().single()
+    : supabase.from("products").insert(payload).select().single();
+
+  const { data: saved, error } = await query;
+  if (error) throw new Error(error.message);
+  return saved;
+}
+
+export async function deleteProduct(input: { id: string }) {
+  const data = deleteProductSchema.parse(input);
+  const { error } = await supabase.from("products").delete().eq("id", data.id);
+  if (error) throw new Error(error.message);
+  return { success: true };
+}
+
+export async function saveSiteContent(input: SiteContentInput) {
+  const data = siteContentSchema.parse(input);
+  const { data: saved, error } = await supabase
+    .from("site_content")
+    .update({
+      title: data.title || null,
+      subtitle: data.subtitle || null,
+      body: data.body || null,
       image_url: data.image_url || null,
-      image_path: data.image_path ?? null,
-      is_featured: data.is_featured,
-      is_active: data.is_active,
+      enabled: data.enabled,
       sort_order: data.sort_order,
-    };
+    })
+    .eq("id", data.id)
+    .select()
+    .single();
 
-    const query = data.id
-      ? supabaseAdmin.from("products").update(payload).eq("id", data.id).select().single()
-      : supabaseAdmin.from("products").insert(payload).select().single();
+  if (error) throw new Error(error.message);
+  return saved;
+}
 
-    const { data: saved, error } = await query;
-    if (error) throw new Error(error.message);
-    return saved;
-  });
+export async function saveSettings(input: SettingsInput) {
+  const data = settingsSchema.parse(input);
+  const { data: saved, error } = await supabase
+    .from("site_settings")
+    .update({
+      whatsapp_number: data.whatsapp_number,
+      phone_display: data.phone_display,
+      phone_e164: data.phone_e164,
+      instagram_url: data.instagram_url,
+      email: data.email,
+      delivery_info: data.delivery_info,
+      hero_enabled: data.hero_enabled,
+      featured_enabled: data.featured_enabled,
+      delivery_enabled: data.delivery_enabled,
+      instagram_enabled: data.instagram_enabled,
+    })
+    .eq("id", data.id)
+    .select()
+    .single();
 
-export const deleteProduct = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator(deleteProductSchema)
-  .handler(async ({ data }) => {
-    const { error } = await supabaseAdmin.from("products").delete().eq("id", data.id);
-    if (error) throw new Error(error.message);
-    return { success: true };
-  });
+  if (error) throw new Error(error.message);
+  return saved;
+}
 
-export const saveSiteContent = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator(siteContentSchema)
-  .handler(async ({ data }) => {
-    const { data: saved, error } = await supabaseAdmin
-      .from("site_content")
-      .update({
-        title: data.title || null,
-        subtitle: data.subtitle || null,
-        body: data.body || null,
-        image_url: data.image_url || null,
-        enabled: data.enabled,
-        sort_order: data.sort_order,
-      })
-      .eq("id", data.id)
-      .select()
-      .single();
+export async function updateOrderStatus(input: { orderId: string; status: "pending" | "completed" | "delivered" }) {
+  const data = orderStatusSchema.parse(input);
+  const { data: saved, error } = await supabase
+    .from("orders")
+    .update({ status: data.status })
+    .eq("id", data.orderId)
+    .select()
+    .single();
 
-    if (error) throw new Error(error.message);
-    return saved;
-  });
-
-export const saveSettings = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator(settingsSchema)
-  .handler(async ({ data }) => {
-    const { data: saved, error } = await supabaseAdmin
-      .from("site_settings")
-      .update({
-        whatsapp_number: data.whatsapp_number,
-        phone_display: data.phone_display,
-        phone_e164: data.phone_e164,
-        instagram_url: data.instagram_url,
-        email: data.email,
-        delivery_info: data.delivery_info,
-        hero_enabled: data.hero_enabled,
-        featured_enabled: data.featured_enabled,
-        delivery_enabled: data.delivery_enabled,
-        instagram_enabled: data.instagram_enabled,
-      })
-      .eq("id", data.id)
-      .select()
-      .single();
-
-    if (error) throw new Error(error.message);
-    return saved;
-  });
-
-export const updateOrderStatus = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator(orderStatusSchema)
-  .handler(async ({ data }) => {
-    const { data: saved, error } = await supabaseAdmin
-      .from("orders")
-      .update({ status: data.status })
-      .eq("id", data.orderId)
-      .select()
-      .single();
-
-    if (error) throw new Error(error.message);
-    return saved;
-  });
+  if (error) throw new Error(error.message);
+  return saved;
+}

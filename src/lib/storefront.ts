@@ -50,7 +50,7 @@ export const getStorefrontData = createServerFn({ method: "GET" }).handler(async
   };
 });
 
-export const getAdminData = createServerFn({ method: "GET" }).handler(async () => {
+export async function getAdminData() {
   const [productsRes, contentRes, settingsRes, ordersRes, orderItemsRes, mediaRes] = await Promise.all([
     supabase.from("products").select("*").order("sort_order", { ascending: true }),
     supabase.from("site_content").select("*").order("sort_order", { ascending: true }),
@@ -75,7 +75,7 @@ export const getAdminData = createServerFn({ method: "GET" }).handler(async () =
     orderItems: orderItemsRes.data ?? [],
     mediaAssets: mediaRes.data ?? [],
   };
-});
+}
 
 export const createOrder = createServerFn({ method: "POST" })
   .inputValidator(createOrderSchema)

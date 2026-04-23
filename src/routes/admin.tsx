@@ -1,6 +1,5 @@
 import { createFileRoute, Link, redirect, useRouter } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { useServerFn } from "@tanstack/react-start";
 import { LogOut, Package, PenSquare, Settings, ShoppingBag, Image as ImageIcon, Shield, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -62,11 +61,6 @@ function slugify(value: string) {
 function AdminPage() {
   const router = useRouter();
   const loaderData = Route.useLoaderData();
-  const saveProductFn = useServerFn(saveProduct);
-  const deleteProductFn = useServerFn(deleteProduct);
-  const saveContentFn = useServerFn(saveSiteContent);
-  const saveSettingsFn = useServerFn(saveSettings);
-  const updateOrderStatusFn = useServerFn(updateOrderStatus);
 
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [authForm, setAuthForm] = useState({ email: "", password: "" });
@@ -88,7 +82,7 @@ function AdminPage() {
     sort_order: 0,
   });
 
-  const data = loaderData.data as AdminData | null;
+  const [data, setData] = useState<AdminData | null>(loaderData.data as AdminData | null);
   const groupedOrderItems = useMemo(() => {
     const items: OrderItemRow[] = data?.orderItems ?? [];
     return items.reduce((acc: Record<string, OrderItemRow[]>, item: OrderItemRow) => {
@@ -99,12 +93,18 @@ function AdminPage() {
   }, [data]);
 
   useEffect(() => {
+    setData(loaderData.data as AdminData | null);
+  }, [loaderData.data]);
+
+  useEffect(() => {
     if (productForm.name && !productForm.id) {
       setProductForm((current) => ({ ...current, slug: slugify(current.name) }));
     }
   }, [productForm.name, productForm.id]);
 
   async function refresh() {
+    const nextData = await getAdminData();
+    setData(nextData as AdminData);
     await router.invalidate();
   }
 
@@ -186,8 +186,7 @@ function AdminPage() {
   }
 
   return (
-    <SidebarProvider>
-      <div className="min-h-screen w-full bg-secondary/20">
+    <SidebarProvider className="min-h-screen w-full bg-secondary/20">
         <Sidebar collapsible="icon" className="border-r border-border/60">
           <SidebarContent>
             <SidebarGroup>
@@ -281,7 +280,7 @@ function AdminPage() {
                           form={productForm}
                           setForm={setProductForm}
                           onSave={async () => {
-                            await saveProductFn({ data: productForm });
+                             await saveProduct(productForm);
                             setProductDialogOpen(false);
                             setProductForm({ name: "", slug: "", category: "Bouquets", price_omr: 0, short_description: "", description: "", image_url: "", image_path: null, is_featured: false, is_active: true, sort_order: 0 });
                             await refresh();
@@ -321,7 +320,7 @@ function AdminPage() {
                             <TableCell className="text-right">
                               <div className="flex justify-end gap-2">
                                 <Button variant="outline" size="sm" onClick={() => { setProductForm({ ...product, price_omr: Number(product.price_omr), image_url: product.image_url || "", image_path: product.image_path, }); setProductDialogOpen(true); }}>Edit</Button>
-                                <Button variant="outline" size="sm" onClick={async () => { await deleteProductFn({ data: { id: product.id } }); await refresh(); }}>
+                                 <Button variant="outline" size="sm" onClick={async () => { await deleteProduct({ id: product.id }); await refresh(); }}>
                                   <Trash2 className="h-4 w-4" />
                                 </Button>
                               </div>
@@ -351,7 +350,7 @@ function AdminPage() {
                           <label className="text-sm text-foreground">Visible</label>
                           <Switch checked={section.enabled} onCheckedChange={(checked) => { section.enabled = checked; }} />
                         </div>
-                        <Button className="rounded-full bg-accent text-accent-foreground" onClick={async () => { await saveContentFn({ data: { id: section.id, title: section.title || "", subtitle: section.subtitle || "", body: section.body || "", image_url: section.image_url || "", enabled: section.enabled, sort_order: section.sort_order } }); await refresh(); }}>
+                         <Button className="rounded-full bg-accent text-accent-foreground" onClick={async () => { await saveSiteContent({ id: section.id, title: section.title || "", subtitle: section.subtitle || "", body: section.body || "", image_url: section.image_url || "", enabled: section.enabled, sort_order: section.sort_order }); await refresh(); }}>
                           Save section
                         </Button>
                       </CardContent>
@@ -378,7 +377,7 @@ function AdminPage() {
                           </div>
                           <div className="flex flex-col items-start gap-3 md:items-end">
                             <p className="font-medium text-foreground">{formatPrice(Number(order.total_amount))}</p>
-                            <Select value={order.status} onValueChange={async (value) => { await updateOrderStatusFn({ data: { orderId: order.id, status: value as "pending" | "completed" | "delivered" } }); await refresh(); }}>
+                             <Select value={order.status} onValueChange={async (value) => { await updateOrderStatus({ orderId: order.id, status: value as "pending" | "completed" | "delivered" }); await refresh(); }}>
                               <SelectTrigger className="w-[180px]"><SelectValue /></SelectTrigger>
                               <SelectContent>
                                 <SelectItem value="pending">Pending</SelectItem>
@@ -445,7 +444,7 @@ function AdminPage() {
                           if (!data.siteSettings) return;
                           const getInputValue = (id: string) => (document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | null)?.value ?? "";
                           const getSwitchValue = (id: string) => (document.getElementById(id) as HTMLButtonElement | null)?.getAttribute("aria-checked") === "true";
-                          await saveSettingsFn({ data: { id: data.siteSettings.id, whatsapp_number: getInputValue("whatsapp_number"), phone_display: getInputValue("phone_display"), phone_e164: getInputValue("phone_e164"), instagram_url: getInputValue("instagram_url"), email: getInputValue("email"), delivery_info: getInputValue("delivery_info"), hero_enabled: getSwitchValue("hero_enabled"), featured_enabled: getSwitchValue("featured_enabled"), delivery_enabled: getSwitchValue("delivery_enabled"), instagram_enabled: getSwitchValue("instagram_enabled") } });
+                           await saveSettings({ id: data.siteSettings.id, whatsapp_number: getInputValue("whatsapp_number"), phone_display: getInputValue("phone_display"), phone_e164: getInputValue("phone_e164"), instagram_url: getInputValue("instagram_url"), email: getInputValue("email"), delivery_info: getInputValue("delivery_info"), hero_enabled: getSwitchValue("hero_enabled"), featured_enabled: getSwitchValue("featured_enabled"), delivery_enabled: getSwitchValue("delivery_enabled"), instagram_enabled: getSwitchValue("instagram_enabled") });
                           await refresh();
                         }}>
                           Save settings
@@ -458,7 +457,6 @@ function AdminPage() {
             </Tabs>
           </div>
         </SidebarInset>
-      </div>
     </SidebarProvider>
   );
 }
