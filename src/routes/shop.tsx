@@ -1,9 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { products, categories, type ProductCategory } from "@/data/products";
 import { ProductCard } from "@/components/ProductCard";
+import { getStorefrontData } from "@/lib/storefront";
+import { getProductCategories, toStoreProduct } from "@/lib/products";
 
 export const Route = createFileRoute("/shop")({
+  loader: async () => {
+    const data = await getStorefrontData();
+    const products = data.products.map(toStoreProduct);
+    return {
+      products,
+      categories: getProductCategories(products),
+    };
+  },
   head: () => ({
     meta: [
       { title: "Shop Bouquets — Bonita Flowers | Oman" },
@@ -16,11 +25,24 @@ export const Route = createFileRoute("/shop")({
       { property: "og:description", content: "Roses, mixed bouquets, and luxury arrangements." },
     ],
   }),
+  errorComponent: ({ error }) => (
+    <div className="mx-auto max-w-md px-5 py-24 text-center lg:px-10">
+      <h1 className="font-serif text-3xl text-foreground">Could not load the shop</h1>
+      <p className="mt-3 text-sm text-muted-foreground">{error.message}</p>
+    </div>
+  ),
+  notFoundComponent: () => (
+    <div className="mx-auto max-w-md px-5 py-24 text-center lg:px-10">
+      <h1 className="font-serif text-3xl text-foreground">Shop unavailable</h1>
+      <p className="mt-3 text-sm text-muted-foreground">Please check back in a moment.</p>
+    </div>
+  ),
   component: ShopPage,
 });
 
 function ShopPage() {
-  const [active, setActive] = useState<ProductCategory | "All">("All");
+  const { products, categories } = Route.useLoaderData();
+  const [active, setActive] = useState<string | "All">("All");
   const filtered = active === "All" ? products : products.filter((p) => p.category === active);
 
   return (

@@ -1,12 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Truck, Sparkles, HeartHandshake, Star, Instagram, ShieldCheck } from "lucide-react";
 import heroImage from "@/assets/hero-bouquet.jpg";
-import { products } from "@/data/products";
 import { ProductCard } from "@/components/ProductCard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { getStorefrontData } from "@/lib/storefront";
+import { toStoreProduct } from "@/lib/products";
 import { SITE } from "@/lib/site";
 
 export const Route = createFileRoute("/")({
+  loader: async () => {
+    const data = await getStorefrontData();
+    return {
+      products: data.products.map(toStoreProduct),
+    };
+  },
   head: () => ({
     meta: [
       { title: "Bonita Flowers — Elegant Flowers for Every Occasion | Oman" },
@@ -22,6 +29,18 @@ export const Route = createFileRoute("/")({
       },
     ],
   }),
+  errorComponent: ({ error }) => (
+    <div className="mx-auto max-w-md px-5 py-24 text-center lg:px-10">
+      <h1 className="font-serif text-3xl text-foreground">Could not load the storefront</h1>
+      <p className="mt-3 text-sm text-muted-foreground">{error.message}</p>
+    </div>
+  ),
+  notFoundComponent: () => (
+    <div className="mx-auto max-w-md px-5 py-24 text-center lg:px-10">
+      <h1 className="font-serif text-3xl text-foreground">Storefront unavailable</h1>
+      <p className="mt-3 text-sm text-muted-foreground">Please check back in a moment.</p>
+    </div>
+  ),
   component: HomePage,
 });
 
@@ -54,6 +73,7 @@ const testimonials = [
 ];
 
 function HomePage() {
+  const { products } = Route.useLoaderData();
   const featured = products.filter((p) => p.bestSeller).slice(0, 4);
   const galleryImages = products.slice(0, 6);
 
@@ -219,12 +239,18 @@ function HomePage() {
                 rel="noopener noreferrer"
                 className="group relative block aspect-square overflow-hidden rounded-sm bg-secondary"
               >
-                <img
-                  src={p.image}
-                  alt={p.name}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+                {p.image ? (
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
+                    No image
+                  </div>
+                )}
                 <div className="absolute inset-0 flex items-center justify-center bg-foreground/0 opacity-0 transition-all group-hover:bg-foreground/30 group-hover:opacity-100">
                   <Instagram className="h-6 w-6 text-white" />
                 </div>

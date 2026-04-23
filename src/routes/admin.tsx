@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider } from "@/components/ui/sidebar";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -187,7 +187,11 @@ function AdminPage() {
 
   return (
     <SidebarProvider className="min-h-screen w-full bg-secondary/20">
-        <Sidebar collapsible="icon" className="border-r border-border/60">
+        <Sidebar collapsible="none" className="border-r border-border/60">
+          <SidebarHeader className="border-b border-border/60 px-4 py-4">
+            <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Dashboard</p>
+            <h1 className="font-serif text-2xl text-foreground">Bonita Flowers</h1>
+          </SidebarHeader>
           <SidebarContent>
             <SidebarGroup>
               <SidebarGroupLabel>Bonita Admin</SidebarGroupLabel>
@@ -217,12 +221,9 @@ function AdminPage() {
 
         <SidebarInset>
           <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border/60 bg-background/95 px-4 py-3 backdrop-blur md:px-6">
-            <div className="flex items-center gap-3">
-              <SidebarTrigger className="h-9 w-9 rounded-full border border-border" />
-              <div>
-                <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Dashboard</p>
-                <h1 className="font-serif text-2xl text-foreground">Bonita Flowers</h1>
-              </div>
+            <div>
+              <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Dashboard</p>
+              <h2 className="font-serif text-2xl text-foreground">Store management</h2>
             </div>
             <div className="flex items-center gap-3">
               <Button variant="outline" className="rounded-full" asChild>
