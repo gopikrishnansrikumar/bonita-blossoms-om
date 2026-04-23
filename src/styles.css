@@ -52,38 +52,38 @@
 :root {
   --radius: 0.25rem;
 
-  --background: oklch(0.985 0.008 85);
+  --background: oklch(0.972 0.012 78);
   --foreground: oklch(0.24 0.035 20);
 
-  --card: oklch(0.995 0.004 85);
+  --card: oklch(0.988 0.008 82);
   --card-foreground: oklch(0.24 0.035 20);
-  --popover: oklch(0.995 0.004 85);
+  --popover: oklch(0.988 0.008 82);
   --popover-foreground: oklch(0.24 0.035 20);
 
   --primary: oklch(0.35 0.12 20);
   --primary-foreground: oklch(0.985 0.01 90);
-  --secondary: oklch(0.95 0.015 85);
+  --secondary: oklch(0.945 0.018 80);
   --secondary-foreground: oklch(0.28 0.03 20);
-  --muted: oklch(0.965 0.008 85);
+  --muted: oklch(0.958 0.012 80);
   --muted-foreground: oklch(0.48 0.018 30);
   --accent: oklch(0.84 0.09 85);
   --accent-foreground: oklch(0.22 0.03 20);
   --destructive: oklch(0.55 0.2 27);
   --destructive-foreground: oklch(0.99 0.003 75);
 
-  --border: oklch(0.88 0.02 80);
-  --input: oklch(0.9 0.015 85);
+  --border: oklch(0.89 0.025 78);
+  --input: oklch(0.92 0.018 80);
   --ring: oklch(0.78 0.08 85);
 
   --burgundy: oklch(0.33 0.12 20);
   --burgundy-soft: oklch(0.42 0.09 20);
   --gold: oklch(0.8 0.1 85);
   --gold-soft: oklch(0.9 0.05 85);
-  --champagne: oklch(0.965 0.012 90);
+  --champagne: oklch(0.958 0.018 80);
   --blush: oklch(0.955 0.01 85);
   --blush-deep: oklch(0.9 0.02 80);
   --rose: oklch(0.42 0.11 20);
-  --cream: oklch(0.98 0.006 90);
+  --cream: oklch(0.972 0.014 78);
   --sage: oklch(0.72 0.04 145);
   --sage-deep: oklch(0.45 0.04 145);
   --whatsapp: oklch(0.62 0.16 145);
@@ -126,6 +126,7 @@
 
   body {
     background-color: var(--color-background);
+    background-image: linear-gradient(180deg, color-mix(in oklab, var(--color-background) 92%, var(--color-gold) 8%), var(--color-background));
     color: var(--color-foreground);
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
