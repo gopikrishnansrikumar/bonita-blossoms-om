@@ -239,12 +239,18 @@ function HomePage() {
                 rel="noopener noreferrer"
                 className="group relative block aspect-square overflow-hidden rounded-sm bg-secondary"
               >
-                <img
-                  src={p.image}
-                  alt={p.name}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+                {p.image ? (
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
+                    No image
+                  </div>
+                )}
                 <div className="absolute inset-0 flex items-center justify-center bg-foreground/0 opacity-0 transition-all group-hover:bg-foreground/30 group-hover:opacity-100">
                   <Instagram className="h-6 w-6 text-white" />
                 </div>
