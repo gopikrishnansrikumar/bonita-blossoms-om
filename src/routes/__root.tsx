@@ -43,6 +43,13 @@ export const Route = createRootRoute({
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Bonita Flowers" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "Bonita Flowers — Fresh Flowers, Beautiful Moments | Oman" },
+      { name: "twitter:title", content: "Bonita Flowers — Fresh Flowers, Beautiful Moments | Oman" },
+      { name: "description", content: "Bonita Bloom Beauty is an e-commerce website for a luxury flower shop in Oman." },
+      { property: "og:description", content: "Bonita Bloom Beauty is an e-commerce website for a luxury flower shop in Oman." },
+      { name: "twitter:description", content: "Bonita Bloom Beauty is an e-commerce website for a luxury flower shop in Oman." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ebc6bfd5-c139-4865-b6bf-184001a06f22/id-preview-18faf5a0--09d5a304-15d1-450a-9a74-7aa10f64c057.lovable.app-1776923478388.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ebc6bfd5-c139-4865-b6bf-184001a06f22/id-preview-18faf5a0--09d5a304-15d1-450a-9a74-7aa10f64c057.lovable.app-1776923478388.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
