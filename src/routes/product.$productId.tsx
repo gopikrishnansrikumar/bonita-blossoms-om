@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Minus, Plus, Truck, Banknote, Sparkles } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { getStorefrontData } from "@/lib/storefront";
-import { toStoreProduct } from "@/lib/products";
+import { toStoreProduct, type StoreProduct } from "@/lib/products";
 import { formatPrice, SITE } from "@/lib/site";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { ProductCard } from "@/components/ProductCard";
@@ -21,14 +21,20 @@ export const Route = createFileRoute("/product/$productId")({
     if (!product) {
       return { meta: [{ title: "Product not found — Bonita Flowers" }] };
     }
+
+    const meta = [
+      { title: `${product.name} — Bonita Flowers` },
+      { name: "description", content: product.shortDescription },
+      { property: "og:title", content: `${product.name} — Bonita Flowers` },
+      { property: "og:description", content: product.shortDescription },
+    ];
+
+    if (product.image) {
+      meta.push({ property: "og:image", content: product.image });
+    }
+
     return {
-      meta: [
-        { title: `${product.name} — Bonita Flowers` },
-        { name: "description", content: product.shortDescription },
-        { property: "og:title", content: `${product.name} — Bonita Flowers` },
-        { property: "og:description", content: product.shortDescription },
-        { property: "og:image", content: product.image },
-      ],
+      meta,
     };
   },
   notFoundComponent: () => (
@@ -52,7 +58,10 @@ export const Route = createFileRoute("/product/$productId")({
 });
 
 function ProductPage() {
-  const { product, related } = Route.useLoaderData();
+  const loaderData = Route.useLoaderData();
+  if (!loaderData) return null;
+
+  const { product, related } = loaderData;
   const { add } = useCart();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
@@ -149,7 +158,7 @@ function ProductPage() {
           <div className="mx-auto max-w-7xl px-5 lg:px-10">
             <h2 className="font-serif text-2xl text-foreground sm:text-3xl">You may also love</h2>
             <div className="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 lg:grid-cols-4">
-              {related.map((p) => (
+              {related.map((p: StoreProduct) => (
                 <ProductCard key={p.id} product={p} />
               ))}
             </div>
