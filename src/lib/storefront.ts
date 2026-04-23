@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { supabase } from "@/integrations/supabase/client";
 
 const createOrderSchema = z.object({
   customer_name: z.string().trim().min(1).max(120),
@@ -22,19 +22,19 @@ const createOrderSchema = z.object({
 
 export const getStorefrontData = createServerFn({ method: "GET" }).handler(async () => {
   const [productsRes, contentRes, settingsRes, mediaRes] = await Promise.all([
-    supabaseAdmin
+    supabase
       .from("products")
       .select("*")
       .eq("is_active", true)
       .order("sort_order", { ascending: true })
       .order("created_at", { ascending: true }),
-    supabaseAdmin
+    supabase
       .from("site_content")
       .select("*")
       .eq("enabled", true)
       .order("sort_order", { ascending: true }),
-    supabaseAdmin.from("site_settings").select("*").limit(1).maybeSingle(),
-    supabaseAdmin.from("media_assets").select("*").order("created_at", { ascending: false }).limit(24),
+    supabase.from("site_settings").select("*").limit(1).maybeSingle(),
+    supabase.from("media_assets").select("*").order("created_at", { ascending: false }).limit(24),
   ]);
 
   if (productsRes.error) throw new Error(productsRes.error.message);
@@ -52,12 +52,12 @@ export const getStorefrontData = createServerFn({ method: "GET" }).handler(async
 
 export const getAdminData = createServerFn({ method: "GET" }).handler(async () => {
   const [productsRes, contentRes, settingsRes, ordersRes, orderItemsRes, mediaRes] = await Promise.all([
-    supabaseAdmin.from("products").select("*").order("sort_order", { ascending: true }),
-    supabaseAdmin.from("site_content").select("*").order("sort_order", { ascending: true }),
-    supabaseAdmin.from("site_settings").select("*").limit(1).maybeSingle(),
-    supabaseAdmin.from("orders").select("*").order("created_at", { ascending: false }),
-    supabaseAdmin.from("order_items").select("*").order("created_at", { ascending: false }),
-    supabaseAdmin.from("media_assets").select("*").order("created_at", { ascending: false }),
+    supabase.from("products").select("*").order("sort_order", { ascending: true }),
+    supabase.from("site_content").select("*").order("sort_order", { ascending: true }),
+    supabase.from("site_settings").select("*").limit(1).maybeSingle(),
+    supabase.from("orders").select("*").order("created_at", { ascending: false }),
+    supabase.from("order_items").select("*").order("created_at", { ascending: false }),
+    supabase.from("media_assets").select("*").order("created_at", { ascending: false }),
   ]);
 
   if (productsRes.error) throw new Error(productsRes.error.message);
@@ -80,7 +80,7 @@ export const getAdminData = createServerFn({ method: "GET" }).handler(async () =
 export const createOrder = createServerFn({ method: "POST" })
   .inputValidator(createOrderSchema)
   .handler(async ({ data }) => {
-    const { data: order, error: orderError } = await supabaseAdmin
+    const { data: order, error: orderError } = await supabase
       .from("orders")
       .insert({
         customer_name: data.customer_name,
@@ -98,7 +98,7 @@ export const createOrder = createServerFn({ method: "POST" })
 
     if (orderError || !order) throw new Error(orderError?.message ?? "Could not create order");
 
-    const { error: itemsError } = await supabaseAdmin.from("order_items").insert(
+    const { error: itemsError } = await supabase.from("order_items").insert(
       data.items.map((item) => ({
         order_id: order.id,
         product_id: item.product_id ?? null,
