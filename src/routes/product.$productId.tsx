@@ -1,17 +1,20 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { Minus, Plus, Truck, Banknote, Sparkles } from "lucide-react";
-import { findProduct, products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
+import { getStorefrontData } from "@/lib/storefront";
+import { toStoreProduct } from "@/lib/products";
 import { formatPrice, SITE } from "@/lib/site";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { ProductCard } from "@/components/ProductCard";
 
 export const Route = createFileRoute("/product/$productId")({
-  loader: ({ params }) => {
-    const product = findProduct(params.productId);
+  loader: async ({ params }) => {
+    const data = await getStorefrontData();
+    const products = data.products.map(toStoreProduct);
+    const product = products.find((item) => item.slug === params.productId);
     if (!product) throw notFound();
-    return { product };
+    return { product, related: products.filter((item) => item.slug !== product.slug && item.category === product.category).slice(0, 4) };
   },
   head: ({ loaderData }) => {
     const product = loaderData?.product;
@@ -49,7 +52,7 @@ export const Route = createFileRoute("/product/$productId")({
 });
 
 function ProductPage() {
-  const { product } = Route.useLoaderData();
+  const { product, related } = Route.useLoaderData();
   const { add } = useCart();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
@@ -60,7 +63,6 @@ function ProductPage() {
     setTimeout(() => setAdded(false), 2000);
   };
 
-  const related = products.filter((p) => p.id !== product.id && p.category === product.category).slice(0, 4);
   const message = `Hi Bonita Flowers, I'd like to order: ${product.name} (${formatPrice(product.price)}) × ${qty}`;
 
   return (
@@ -76,13 +78,19 @@ function ProductPage() {
 
         <div className="grid gap-12 lg:grid-cols-2">
           <div className="overflow-hidden rounded-sm border border-border/70 bg-secondary/30 shadow-[var(--shadow-petal)]">
-            <img
-              src={product.image}
-              alt={product.name}
-              width={900}
-              height={1100}
+            {product.image ? (
+              <img
+                src={product.image}
+                alt={product.name}
+                width={900}
+                height={1100}
                 className="h-full w-full object-cover"
-            />
+              />
+            ) : (
+              <div className="flex aspect-[4/5] w-full items-center justify-center bg-secondary text-sm text-muted-foreground">
+                No image
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col">
