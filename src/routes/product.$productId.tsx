@@ -67,7 +67,7 @@ function ProductPage() {
   const [added, setAdded] = useState(false);
 
   const handleAdd = () => {
-    add({ id: product.id, name: product.name, price: product.price, image: product.image }, qty);
+    add({ id: product.id, name: product.name, price: product.price, image: product.image ?? "" }, qty);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
