@@ -49,8 +49,6 @@ const orderStatusSchema = z.object({
 });
 
 const deleteProductSchema = z.object({ id: z.string().uuid() });
-const bootstrapSchema = z.object({});
-
 export type ProductInput = z.infer<typeof productSchema>;
 export type SiteContentInput = z.infer<typeof siteContentSchema>;
 export type SettingsInput = z.infer<typeof settingsSchema>;
@@ -90,20 +88,30 @@ export async function signOutAdmin() {
   return supabase.auth.signOut();
 }
 
-export const bootstrapAdminRole = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator(bootstrapSchema)
-  .handler(async ({ context }) => {
-    const { error } = await context.supabase
-      .from("user_roles")
-      .insert({ user_id: context.userId, role: "admin" });
+export async function bootstrapAdminRole() {
+  const {
+    data: { session },
+    error: sessionError,
+  } = await supabase.auth.getSession();
 
-    if (error) {
-      throw new Error(error.message);
-    }
+  if (sessionError) {
+    throw new Error(sessionError.message);
+  }
 
-    return { success: true };
-  });
+  if (!session?.user) {
+    throw new Error("Please sign in before claiming admin access.");
+  }
+
+  const { error } = await supabase
+    .from("user_roles")
+    .insert({ user_id: session.user.id, role: "admin" });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return { success: true };
+}
 
 export const saveProduct = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

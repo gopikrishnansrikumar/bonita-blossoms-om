@@ -67,7 +67,6 @@ function AdminPage() {
   const saveContentFn = useServerFn(saveSiteContent);
   const saveSettingsFn = useServerFn(saveSettings);
   const updateOrderStatusFn = useServerFn(updateOrderStatus);
-  const bootstrapAdminFn = useServerFn(bootstrapAdminRole);
 
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [authForm, setAuthForm] = useState({ email: "", password: "" });
@@ -141,7 +140,7 @@ function AdminPage() {
     setBootstrapping(true);
     setAuthError("");
     try {
-      await bootstrapAdminFn({ data: {} });
+      await bootstrapAdminRole();
       await refresh();
     } catch (error) {
       setAuthError(error instanceof Error ? error.message : "Could not claim admin access.");
