@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ShoppingBag, Menu, X } from "lucide-react";
+import { ShoppingBag, Menu, X, ChevronDown } from "lucide-react";
 import logo from "@/assets/bonita-logo.png";
 import { useCart } from "@/context/CartContext";
 import { SITE } from "@/lib/site";
+import { PRODUCT_CATEGORIES } from "@/lib/products";
 
 const links = [
   { to: "/", label: "Home" },
