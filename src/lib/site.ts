@@ -6,7 +6,7 @@ export const SITE = {
   phoneE164: "+96892109485",
   whatsappNumber: "96892109485",
   instagram: "https://www.instagram.com/bonita.flowers/",
-  email: "hello@bonitaflowers.om",
+  email: "info@adamforttrading.com",
   currency: "OMR",
 };
 
