@@ -51,6 +51,15 @@ export function toStoreProduct(product: ProductRow): StoreProduct {
   };
 }
 
+export const PRODUCT_CATEGORIES = [
+  "Hand Bouquet",
+  "Foam Bouquet",
+  "Special Bouquet",
+  "Chocolates",
+  "Events",
+] as const;
+
 export function getProductCategories(products: StoreProduct[]) {
-  return Array.from(new Set(products.map((product) => product.category))).sort();
+  const fromProducts = Array.from(new Set(products.map((p) => p.category)));
+  return Array.from(new Set([...PRODUCT_CATEGORIES, ...fromProducts]));
 }
