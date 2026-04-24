@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductCard } from "@/components/ProductCard";
 import { getStorefrontData } from "@/lib/storefront";
 import { getProductCategories, toStoreProduct } from "@/lib/products";
@@ -43,6 +43,15 @@ export const Route = createFileRoute("/shop")({
 function ShopPage() {
   const { products, categories } = Route.useLoaderData();
   const [active, setActive] = useState<string | "All">("All");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get("category");
+    if (cat && categories.includes(cat)) setActive(cat);
+    else if (cat === null) setActive("All");
+  }, [categories]);
+
   const filtered = active === "All" ? products : products.filter((p) => p.category === active);
 
   return (
