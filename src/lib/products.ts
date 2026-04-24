@@ -61,5 +61,6 @@ export const PRODUCT_CATEGORIES = [
 
 export function getProductCategories(products: StoreProduct[]) {
   const fromProducts = Array.from(new Set(products.map((p) => p.category)));
-  return Array.from(new Set([...PRODUCT_CATEGORIES, ...fromProducts]));
+  const merged = Array.from(new Set([...PRODUCT_CATEGORIES, ...fromProducts]));
+  return merged.filter((c) => c.toLowerCase() !== "roses");
 }
