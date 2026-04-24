@@ -46,17 +46,47 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-9 md:flex">
-          {links.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              className="text-sm tracking-wide text-foreground/80 transition-colors hover:text-primary"
-              activeProps={{ className: "text-primary" }}
-              activeOptions={{ exact: l.to === "/" }}
-            >
-              {l.label}
-            </Link>
-          ))}
+          {links.map((l) =>
+            l.to === "/shop" ? (
+              <div key={l.to} className="group relative">
+                <Link
+                  to={l.to}
+                  className="inline-flex items-center gap-1 text-sm tracking-wide text-foreground/80 transition-colors hover:text-primary"
+                  activeProps={{ className: "text-primary" }}
+                >
+                  {l.label}
+                  <ChevronDown className="h-3.5 w-3.5" />
+                </Link>
+                <div className="invisible absolute left-1/2 top-full z-50 mt-2 w-56 -translate-x-1/2 rounded-md border border-border/70 bg-background p-2 opacity-0 shadow-lg transition-all duration-150 group-hover:visible group-hover:opacity-100">
+                  <Link
+                    to="/shop"
+                    className="block rounded-sm px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary"
+                  >
+                    All products
+                  </Link>
+                  {PRODUCT_CATEGORIES.map((cat) => (
+                    <a
+                      key={cat}
+                      href={`/shop?category=${encodeURIComponent(cat)}`}
+                      className="block rounded-sm px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary"
+                    >
+                      {cat}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <Link
+                key={l.to}
+                to={l.to}
+                className="text-sm tracking-wide text-foreground/80 transition-colors hover:text-primary"
+                activeProps={{ className: "text-primary" }}
+                activeOptions={{ exact: l.to === "/" }}
+              >
+                {l.label}
+              </Link>
+            ),
+          )}
         </nav>
 
         <div className="flex items-center gap-2">
