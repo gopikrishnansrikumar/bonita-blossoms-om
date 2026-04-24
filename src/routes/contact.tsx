@@ -112,7 +112,7 @@ function ContactPage() {
             </p>
           </div>
 
-          <div className="mt-10 text-center">
+          <div className="mt-10">
             <p className="eyebrow mb-4">Find us on the map</p>
             <a
               href="https://maps.app.goo.gl/Cv48p3ynPUTc1YeK8"
