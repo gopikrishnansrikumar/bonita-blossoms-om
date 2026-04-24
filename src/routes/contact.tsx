@@ -111,6 +111,34 @@ function ContactPage() {
               available across Oman. WhatsApp us for urgent same-day requests.
             </p>
           </div>
+
+          <div className="mt-10">
+            <p className="eyebrow mb-4">Find us on the map</p>
+            <a
+              href="https://maps.app.goo.gl/Cv48p3ynPUTc1YeK8"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open ${SITE.name} location in Google Maps`}
+              className="group relative block overflow-hidden rounded-sm border border-accent/30 shadow-sm transition-shadow hover:shadow-md"
+            >
+              <iframe
+                title={`${SITE.name} location map`}
+                src="https://www.google.com/maps?q=Bonita+Flowers+Muscat+Oman&output=embed"
+                className="pointer-events-none h-64 w-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              <div className="absolute inset-0 flex items-end justify-between bg-gradient-to-t from-background/80 via-transparent to-transparent p-4 opacity-0 transition-opacity group-hover:opacity-100">
+                <span className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-medium tracking-wide text-primary-foreground">
+                  <MapPin className="h-3.5 w-3.5" />
+                  Get directions
+                </span>
+              </div>
+            </a>
+            <p className="mt-3 text-xs text-muted-foreground">
+              Tap the map to open directions in Google Maps.
+            </p>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="md:col-span-3">
