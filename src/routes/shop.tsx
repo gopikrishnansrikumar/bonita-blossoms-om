@@ -5,7 +5,7 @@ import { getStorefrontData } from "@/lib/storefront";
 import { getProductCategories, toStoreProduct } from "@/lib/products";
 
 export const Route = createFileRoute("/shop")({
-  validateSearch: (search: Record<string, unknown>) => ({
+  validateSearch: (search: Record<string, unknown>): { category?: string } => ({
     category: typeof search.category === "string" ? search.category : undefined,
   }),
   loader: async () => {
