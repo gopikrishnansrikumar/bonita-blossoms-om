@@ -2,9 +2,9 @@ export const SITE = {
   name: "Bonita Flowers",
   tagline: "Elegant Flowers for Every Occasion",
   location: "Muscat, Oman",
-  phoneDisplay: "+968 9000 0000",
-  phoneE164: "+96890000000",
-  whatsappNumber: "96890000000", // edit to your real number
+  phoneDisplay: "+968 9210 9485",
+  phoneE164: "+96892109485",
+  whatsappNumber: "96892109485",
   instagram: "https://www.instagram.com/bonita.flowers/",
   email: "hello@bonitaflowers.om",
   currency: "OMR",
