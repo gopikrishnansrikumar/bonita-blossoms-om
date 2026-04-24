@@ -39,7 +39,6 @@ export function Footer() {
           <p className="eyebrow mb-4">Explore</p>
           <ul className="space-y-2 text-sm">
             <li><Link to="/shop" className="text-foreground/80 hover:text-primary">Shop all</Link></li>
-            <li><Link to="/shop" className="text-foreground/80 hover:text-primary">Roses</Link></li>
             <li><Link to="/shop" className="text-foreground/80 hover:text-primary">Luxury arrangements</Link></li>
             <li><Link to="/about" className="text-foreground/80 hover:text-primary">Our story</Link></li>
             <li><Link to="/contact" className="text-foreground/80 hover:text-primary">Contact</Link></li>
